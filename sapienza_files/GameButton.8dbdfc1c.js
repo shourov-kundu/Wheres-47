@@ -1,0 +1,1 @@
+import{_ as t,o as n,c as o,m as s,q as _}from"./entry.db787e62.js";const a={name:"GameButton"};function c(e,r,p,u,d,m){return n(),o("button",_({type:"button",class:"btn btn-block game-button"},e.$attrs),[s(e.$slots,"default",{},void 0,!0)],16)}const f=t(a,[["render",c],["__scopeId","data-v-00c9e358"]]);export{f as _};

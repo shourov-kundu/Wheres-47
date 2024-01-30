@@ -17,21 +17,21 @@ for (let i = 0; i < mapButtons.length; i++) {
             if (x[0].id !== mapButtons[i].id){
                 x[0].remove();
                 var iframe = document.createElement('iframe');
-                iframe.id = mapButtons[i];
-                iframe.src = mapButtons[i] + ".html"; 
+                iframe.id = mapButtons[i].id;
+                iframe.src = mapButtons[i].id + ".html"; 
                 iframe.style.width = '1000px'; 
                 iframe.style.height = '600px'; 
                 
-                document.body.appendChild(iframe);
+                document.body.appendChild(iframe, document.getElementById('home'));
                 
+                document.querySelector('iframe').addEventListener('load', mapSetUp);
             }
         }
     });
 }
 
 menu.addEventListener('click', mobileMenu);
-
-document.querySelector('iframe').addEventListener('load', function(event){
+const mapSetUp = () => {
     var icons = document.querySelector('iframe').contentWindow.document.getElementsByClassName("leaflet-interactive");
     var checkExist = setInterval(function() {
         if (icons.length > 100) {
@@ -60,4 +60,5 @@ document.querySelector('iframe').addEventListener('load', function(event){
               }
         }
      }, 25);
-});
+}
+document.querySelector('iframe').addEventListener('load', mapSetUp);
