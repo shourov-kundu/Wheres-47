@@ -19,11 +19,11 @@ for (let i = 0; i < mapButtons.length; i++) {
                 var iframe = document.createElement('iframe');
                 iframe.id = mapButtons[i].id;
                 iframe.src = mapButtons[i].id + ".html"; 
-                iframe.style.width = '1000px'; 
-                iframe.style.height = '600px';  
+                iframe.style.width = '50%'; 
+                iframe.style.height = '100%';  
                 iframe.setAttribute("scrolling", "no");
-                document.body.appendChild(iframe, document.getElementById('home'));
-                
+                // document.body.appendChild(iframe, document.getElementById('home'));
+                document.getElementById('map-holder').insertBefore(iframe, document.getElementById('map-holder').firstChild);
                 document.querySelector('iframe').addEventListener('load', mapSetUp);
             }
         }
@@ -62,3 +62,8 @@ const mapSetUp = () => {
      }, 25);
 }
 document.querySelector('iframe').addEventListener('load', mapSetUp);
+document.getElementById('guess-button').addEventListener('click', ()=>{
+    var imgElement = document.querySelector('iframe').contentWindow.document.querySelector('[style*="translate3d(158px, 255px, 0px)"]');
+    console.log(imgElement);
+    imgElement.style.display = 'block';
+});
