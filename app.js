@@ -20,8 +20,8 @@ for (let i = 0; i < mapButtons.length; i++) {
                 iframe.id = mapButtons[i].id;
                 iframe.src = mapButtons[i].id + ".html"; 
                 iframe.style.width = '1000px'; 
-                iframe.style.height = '600px'; 
-                
+                iframe.style.height = '600px';  
+                iframe.setAttribute("scrolling", "no");
                 document.body.appendChild(iframe, document.getElementById('home'));
                 
                 document.querySelector('iframe').addEventListener('load', mapSetUp);
