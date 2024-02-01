@@ -1,6 +1,6 @@
 const menu = document.querySelector('#mobile-menu');
 const menuLinks = document.querySelector('.navbar__menu');
-const mapButtons = document.getElementsByClassName('navbar__links');
+const mapButtons = document.getElementsByClassName('map-button');
 // Display mobile menu
 const mobileMenu = () => {
     menu.classList.toggle('is-active');

@@ -10,8 +10,56 @@ iframe {
     width: 100%;
     height: 100%;
 }
-button {
-    background-color: aquamarine;
+
+.map-button {
+    position: relative;
+    display: inline-block;
+    overflow: hidden;
+    width: 125px;
+    height: 100%;
+    text-decoration: none;
+}
+
+.map-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    opacity: .3;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.map-button:hover::before {
+    opacity: 1;
+}
+.paris-button::before {
+    background-image: url("map_icons/paris.webp");
+}
+.sapienza-button::before {
+    background-image: url("map_icons/sapienza.webp");
+}
+.marrakesh-button::before {
+    background-image: url("paris1.jpg");
+}
+.button-text {
+    position: relative;
+    z-index: 1; /* Ensure the text is above the pseudo-element */
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    transition: opacity 0.3s ease-in-out;
+}
+.button-text:hover {
+    /* color: #ff0000; */
+    opacity: .5;
+    transition: opacity 0.3s ease-in-out;
 }
 .navbar {
     background: #131313;
