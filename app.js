@@ -16,6 +16,7 @@ for (let i = 0; i < mapButtons.length; i++) {
         if (x.length > 0){
             if (x[0].id !== mapButtons[i].id){
                 x[0].remove();
+                document.getElementById("pin").style.visibility = 'hidden';
                 var iframe = document.createElement('iframe');
                 iframe.id = mapButtons[i].id;
                 iframe.src = mapButtons[i].id + ".html"; 
@@ -37,6 +38,7 @@ const mapSetUp = () => {
         if (icons.length > 100) {
             clearInterval(checkExist);
 
+            document.getElementById("pin").style.visibility = 'visible';
             // Press button to hide all elements (can't just alter tags because they are reset)
             document.querySelector('iframe').contentWindow.document.getElementsByClassName("hide-select-button")[0].click();
 
@@ -67,3 +69,5 @@ document.getElementById('guess-button').addEventListener('click', ()=>{
     console.log(imgElement);
     imgElement.style.display = 'block';
 });
+
+//Use MATH to find player coordinates (extrapolate from icons)
