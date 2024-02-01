@@ -24,7 +24,9 @@ for (let i = 0; i < mapButtons.length; i++) {
                 iframe.style.height = '100%';  
                 iframe.setAttribute("scrolling", "no");
                 document.getElementById('map-holder').insertBefore(iframe, document.getElementById('map-holder').firstChild);
-                document.querySelector('iframe').addEventListener('load', mapSetUp);
+                if (mapButtons[i].id !== "hokkaido"){
+                    document.querySelector('iframe').addEventListener('load', mapSetUp);
+                }
             }
         }
     });
@@ -37,7 +39,6 @@ const mapSetUp = () => {
         if (icons.length > 100) {
             clearInterval(checkExist);
 
-            document.getElementById("pin").style.visibility = 'visible';
             // Press button to hide all elements (can't just alter tags because they are reset)
             document.querySelector('iframe').contentWindow.document.getElementsByClassName("hide-select-button")[0].click();
 
@@ -58,7 +59,8 @@ const mapSetUp = () => {
             var areas = document.querySelector('iframe').contentWindow.document.getElementsByClassName('area-icon');
             for (let i = 0; i < areas.length; i++) {
                 areas[i].classList.remove('leaflet-interactive');
-              }
+            }
+            document.getElementById("pin").style.visibility = 'visible';
         }
      }, 10);
 }

@@ -45,6 +45,12 @@ iframe {
 .marrakesh-button::before {
     background-image: url("map_icons/marrakesh.webp");
 }
+.bangkok-button::before {
+    background-image: url("map_icons/bangkok.webp");
+}
+.colorado-button::before {
+    background-image: url("map_icons/colorado.webp");
+}
 .button-text {
     position: relative;
     z-index: 1; /* Ensure the text is above the pseudo-element */
@@ -103,6 +109,7 @@ iframe {
     display:flex;
     align-items: center;
     list-style: none;
+    background-color: #000;
 }
 
 .navbar__item {
@@ -179,7 +186,7 @@ iframe {
     /* Design of navbar menu if it's active, set by JS */
     .navbar__menu.active {
         background: #131313;
-        top:100%;
+        top:0%;
         opacity: 1;
         transition: all 0.5s ease;
         z-index: 99;
