@@ -5,8 +5,6 @@ const mapButtons = document.getElementsByClassName('map-button');
 const mobileMenu = () => {
     menu.classList.toggle('is-active');
     menuLinks.classList.toggle('active');
-
-    console.log(document.getElementById('map').contentWindow.document.getElementsByClassName("navbar-dark"));
 };
 
 for (let i = 0; i < mapButtons.length; i++) {
@@ -73,6 +71,13 @@ document.getElementById('guess-button').addEventListener('click', ()=>{
             console.log(elements[i].style.transform);
         }
       }
+});
+
+window.addEventListener('resize', () =>{
+    if (window.getComputedStyle(menuLinks).getPropertyValue('display') === 'flex'){
+        menu.classList.remove('is-active');
+        menuLinks.classList.remove('active');
+    }
 });
 
 //Use MATH to find player coordinates (extrapolate from icons)
