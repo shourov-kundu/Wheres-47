@@ -43,7 +43,7 @@ iframe {
     background-image: url("map_icons/sapienza.webp");
 }
 .marrakesh-button::before {
-    background-image: url("paris1.jpg");
+    background-image: url("map_icons/marrakesh.webp");
 }
 .button-text {
     position: relative;
@@ -192,13 +192,15 @@ iframe {
         padding-left: 25px;
     }
 
-    /* design of each bar in menu logo */
+    /* appearance and cursor interaction of bars in menu logo */
     .navbar__toggle .bar{
         width:25px;
         height:3px;
         margin: 5px auto;
         transition: all 0.3s ease-in-out;
         background: #fff;
+        display: block;
+        cursor: pointer;
     }
 
     /* width of each button when in mobile menu */
@@ -237,12 +239,6 @@ iframe {
         transform: translate(5%,20%)
     }
 
-    /* appearance and cursor interaction of menu bar */
-    .navbar__toggle .bar {
-        display: block;
-        cursor: pointer;
-    }
-
     /* smooth transformation of menu bar */
     #mobile-menu.is-active .bar:nth-child(2) {
         opacity: 0;
@@ -254,51 +250,7 @@ iframe {
         transform: translateY(-8px) rotate(-45deg);
     }
 } 
-
-/* Heros */
-.hero{
-    background: #000000;
-    background: linear-gradient(to right, #161616, #000000);
-    padding:200px 0;
-}
-
-.hero__container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    max-width: 1200px;
-    margin: 0 auto;
-    height: 90%;
-    text-align: center;
-    padding: 30px;
-}
-
-.hero__heading{
-    font-size: 100px;
-    margin-bottom: 24px;
-    color: #fff;
-}
-
-.hero__heading span {
-  background: #ee0979; /* fallback for old browsers */
-  background: -webkit-linear-gradient(
-    to right,
-    #ff6a00,
-    #ee0979
-  ); /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(
-    to right,
-    #ff6a00,
-    #ee0979
-  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-  background-size: 100%;
-  -webkit-background-clip: text;
-  -moz-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  -mo-text-fill-color: transparent;
-}
-
+    
 .overlayImage {
     position: absolute;
     top: 0;
