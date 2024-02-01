@@ -66,14 +66,6 @@ const mapSetUp = () => {
 }
 document.querySelector('iframe').addEventListener('load', mapSetUp);
 document.getElementById('guess-button').addEventListener('click', ()=>{
-    // var x = "//a[text()='The North']"
-    // var elements = document.querySelector('iframe').contentWindow.document.evaluate(x, document, null, XPathResult.ANY_TYPE, null);
-    // console.log(elements);
-    // let thisHeading = elements.iterateNext();
-    // while (thisHeading) {
-    //     console.log(thisHeading.textContent);
-    //     thisHeading = elements.iterateNext();
-    // }
     var elements = document.querySelector('iframe').contentWindow.document.getElementsByClassName('area-icon');
     console.log(elements.length)
     for (let i = 0; i < elements.length; i++) {
