@@ -51,6 +51,9 @@ iframe {
 .colorado-button::before {
     background-image: url("map_icons/colorado.webp");
 }
+.hokkaido-button::before {
+    background-image: url("map_icons/hokkaido.webp");
+}
 .button-text {
     position: relative;
     z-index: 1; /* Ensure the text is above the pseudo-element */

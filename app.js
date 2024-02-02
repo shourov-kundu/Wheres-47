@@ -24,9 +24,7 @@ for (let i = 0; i < mapButtons.length; i++) {
                 iframe.style.height = '100%';  
                 iframe.setAttribute("scrolling", "no");
                 document.getElementById('map-holder').insertBefore(iframe, document.getElementById('map-holder').firstChild);
-                if (mapButtons[i].id !== "hokkaido"){
-                    document.querySelector('iframe').addEventListener('load', mapSetUp);
-                }
+                document.querySelector('iframe').addEventListener('load', mapSetUp);
             }
         }
     });
