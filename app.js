@@ -32,35 +32,40 @@ for (let i = 0; i < mapButtons.length; i++) {
 
 menu.addEventListener('click', mobileMenu);
 const mapSetUp = () => {
-    var checkExist = setInterval(function() {
-        var icons = document.querySelector('iframe').contentWindow.document.getElementsByClassName("leaflet-interactive");
-        if (icons.length > 100) {
-            clearInterval(checkExist);
-
-            // Press button to hide all elements (can't just alter tags because they are reset)
-            document.querySelector('iframe').contentWindow.document.getElementsByClassName("hide-select-button")[0].click();
-
-            // Open navigation menu and then select area button to show location names
-            document.querySelector('iframe').contentWindow.document.getElementsByClassName('card-header')[4].firstChild.click();
-            document.querySelector('iframe').contentWindow.document.querySelectorAll('img[alt="Area Icon"]')[0].click();
-
-            // Hide sidebar (all done with it by now)
-            document.querySelector('iframe').contentWindow.document.getElementsByClassName("navbar-dark")[0].style.visibility = 'hidden';
-
-            // Remove counts of items on each level
-            var counts = document.querySelector('iframe').contentWindow.document.getElementsByClassName('item-count');
-            while (counts.length) {
-                counts[0].remove();
-            }
-            
-            // Make names unclickable (just for show)
-            var areas = document.querySelector('iframe').contentWindow.document.getElementsByClassName('area-icon');
-            for (let i = 0; i < areas.length; i++) {
-                areas[i].classList.remove('leaflet-interactive');
-            }
-            document.getElementById("pin").style.visibility = 'visible';
+    // Press button to hide all elements (can't just alter tags because they are reset)
+    var itemButtons = document.querySelector('iframe').contentWindow.document.getElementsByClassName("hide-select-button");    
+    function waitUp(){
+        itemButtons = document.querySelector('iframe').contentWindow.document.getElementsByClassName("hide-select-button");
+        if (itemButtons.length == 2){
+            proceed();
+        } else {
+            setTimeout(waitUp, 1000);
         }
-     }, 10);
+    }
+    waitUp();
+    function proceed(){
+        itemButtons[0].click();
+        // Open navigation menu and then select area button to show location names
+        document.querySelector('iframe').contentWindow.document.getElementsByClassName('card-header')[4].firstChild.click();
+        document.querySelector('iframe').contentWindow.document.querySelectorAll('img[alt="Area Icon"]')[0].click();
+
+        // Hide sidebar (all done with it by now)
+        document.querySelector('iframe').contentWindow.document.getElementsByClassName("navbar-dark")[0].style.visibility = 'hidden';
+
+        // Remove counts of items on each level
+        var counts = document.querySelector('iframe').contentWindow.document.getElementsByClassName('item-count');
+        while (counts.length) {
+            counts[0].remove();
+        }
+        
+        // Make names unclickable (just for show)
+        var areas = document.querySelector('iframe').contentWindow.document.getElementsByClassName('area-icon');
+        for (let i = 0; i < areas.length; i++) {
+            areas[i].classList.remove('leaflet-interactive');
+        }
+        document.getElementById("pin").style.visibility = 'visible';
+
+    }
 }
 window.addEventListener('resize', () =>{
     if (window.getComputedStyle(menuLinks).getPropertyValue('display') === 'flex'){
@@ -71,7 +76,6 @@ window.addEventListener('resize', () =>{
 document.querySelector('iframe').addEventListener('load', mapSetUp);
 document.getElementById('guess-button').addEventListener('click', ()=>{
     var elements = document.querySelector('iframe').contentWindow.document.getElementsByClassName('area-icon');
-    console.log(elements.length);
     for (let i = 0; i < elements.length; i++) {
         var VipX;
         var VipY;
@@ -88,33 +92,44 @@ document.getElementById('guess-button').addEventListener('click', ()=>{
             TerraceX = elements[i].getBoundingClientRect().x;
             TerraceY = elements[i].getBoundingClientRect().y;
         }
-
-
-        var realDistance = distance(VipX,VipY, TerraceX, TerraceY);
         // We can now calculate how far they are in real pixels. Also use the tag to find their distance in vPixels
         // Then, use some sort of lookup table to find the level of zoom.
         // Once we know the zoom, calculate how many pixels away they were 
-
-      }
-      var agentImage = document.querySelector('iframe').contentWindow.document.querySelector('.leaflet-marker-pane').getElementsByTagName('img')[0];
-      agentImage.textContent = "FOUNDME";
-      agentImage.style.display = "block";
-      agentImage.src = "/agent_pics/Tuxedo2021.webp"; 
-      var observer = new MutationObserver(function(mutations) {
+    }
+    var agentImage = document.querySelector('iframe').contentWindow.document.querySelector('.leaflet-marker-pane').getElementsByTagName('img')[0];
+    agentImage.textContent = "FOUNDME";
+    agentImage.style.display = "block";
+    agentImage.src = "/agent_pics/Tuxedo2021.webp"; 
+    var observer = new MutationObserver(function(mutations) {
         mutations.forEach(function(mutationRecord) {
             agentImage.style.display = 'block';
         });    
-      });
-      observer.observe(agentImage, { 
+    });
+    observer.observe(agentImage, { 
         attributes: true, 
         attributeFilter: ['style'] 
-      });
-      document.querySelector('iframe').contentWindow.document.querySelector('.leaflet-marker-pane').insertBefore(agentImage, terrace);
+    });
+    var currentFloor = document.querySelector('iframe').contentWindow.document.querySelector('.floor-info.selected');
+    var floorList = document.querySelector('iframe').contentWindow.document.getElementsByClassName('floor-info');
+    for (let i = 0; i < floorList.length; i++) {
+        floorList[i].addEventListener('click', () => {
+            currentFloor = document.querySelector('iframe').contentWindow.document.querySelector('.floor-info.selected');
+            if (currentFloor.querySelector('span').textContent.includes("1")){
+                agentImage.style.opacity = 1;
+            }else{
+                agentImage.style.opacity = .5;
+            }
+
+        });
+    }
+    document.querySelector('iframe').contentWindow.document.querySelector('.leaflet-marker-pane').insertBefore(agentImage, terrace);
 });
 
 function distance(x1,y1,x2,y2){
     return Math.sqrt(Math.pow(x1-x2, 2) + Math.pow(y1-y2, 2));
-
+}
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
 }
 //Use MATH to find player coordinates (extrapolate from icons)
 // Find absolute positions of two icons
