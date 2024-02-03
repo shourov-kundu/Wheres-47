@@ -62,32 +62,68 @@ const mapSetUp = () => {
         }
      }, 10);
 }
-document.querySelector('iframe').addEventListener('load', mapSetUp);
-document.getElementById('guess-button').addEventListener('click', ()=>{
-    var elements = document.querySelector('iframe').contentWindow.document.getElementsByClassName('area-icon');
-    console.log(elements.length)
-    for (let i = 0; i < elements.length; i++) {
-        if (elements[i].textContent.includes("The North")){
-            console.log(elements[i].style.transform);
-        }
-      }
-});
-
 window.addEventListener('resize', () =>{
     if (window.getComputedStyle(menuLinks).getPropertyValue('display') === 'flex'){
         menu.classList.remove('is-active');
         menuLinks.classList.remove('active');
     }
 });
+document.querySelector('iframe').addEventListener('load', mapSetUp);
+document.getElementById('guess-button').addEventListener('click', ()=>{
+    var elements = document.querySelector('iframe').contentWindow.document.getElementsByClassName('area-icon');
+    console.log(elements.length);
+    for (let i = 0; i < elements.length; i++) {
+        var VipX;
+        var VipY;
+        var TerraceX;
+        var TerraceY;
+        var terrace;
+        if (elements[i].textContent.includes("VIP")){
+            VipX = elements[i].getBoundingClientRect().x;
+            VipY = elements[i].getBoundingClientRect().y;
+            //Fully zoomed, paris1 pic is -140,-150 vpixels from VIP Parking icon
+        }
+        if (elements[i].textContent.includes("Kitchen")){
+            terrace = elements[i];
+            TerraceX = elements[i].getBoundingClientRect().x;
+            TerraceY = elements[i].getBoundingClientRect().y;
+        }
 
+
+        var realDistance = distance(VipX,VipY, TerraceX, TerraceY);
+        // We can now calculate how far they are in real pixels. Also use the tag to find their distance in vPixels
+        // Then, use some sort of lookup table to find the level of zoom.
+        // Once we know the zoom, calculate how many pixels away they were 
+
+      }
+      var agentImage = document.querySelector('iframe').contentWindow.document.querySelector('.leaflet-marker-pane').getElementsByTagName('img')[0];
+      agentImage.textContent = "FOUNDME";
+      agentImage.style.display = "block";
+      agentImage.src = "/agent_pics/Tuxedo2021.webp"; 
+      var observer = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutationRecord) {
+            agentImage.style.display = 'block';
+        });    
+      });
+      observer.observe(agentImage, { 
+        attributes: true, 
+        attributeFilter: ['style'] 
+      });
+      document.querySelector('iframe').contentWindow.document.querySelector('.leaflet-marker-pane').insertBefore(agentImage, terrace);
+});
+
+function distance(x1,y1,x2,y2){
+    return Math.sqrt(Math.pow(x1-x2, 2) + Math.pow(y1-y2, 2));
+
+}
 //Use MATH to find player coordinates (extrapolate from icons)
 // Find absolute positions of two icons
 //Then find pin's absolute position (head) to find absolute difference in pixels
 
 
 //Paris, Bartoli's in security room
-// 376, 708 vs 376, 729 (fully zoomed in), 21 pixels 
-// space between elements remains constant after zooming in/out, resizing window, different browsers, even different resolutions
+// 376, 708 vs 376, 729 (fully zoomed in), 21 vPixels 
+// space between elements remains constant after zooming in/out (of map OR whole window), resizing window, different browsers, even different resolutions
 // So, we can use distance between elements to find level of zoom. 
 // Once we know level of zoom, we can use calculate how far the distance in pixels actually represents, tell them in feet or meters or something
 
@@ -99,4 +135,4 @@ window.addEventListener('resize', () =>{
 // Show next button
 
 
-//Pictures: TO get mission-agnostic pictures use 
+//NOTE: area name elements only show up when on correct floor, need to calculate translation for each floor?
