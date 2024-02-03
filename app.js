@@ -92,6 +92,10 @@ document.getElementById('guess-button').addEventListener('click', ()=>{
             TerraceX = elements[i].getBoundingClientRect().x;
             TerraceY = elements[i].getBoundingClientRect().y;
         }
+
+        // transform: translate3d(572px, 857px, 0px) rotate(10deg);
+        // USE ^ to draw a line between two elements and insert it as a leaflet
+
         // We can now calculate how far they are in real pixels. Also use the tag to find their distance in vPixels
         // Then, use some sort of lookup table to find the level of zoom.
         // Once we know the zoom, calculate how many pixels away they were 
@@ -100,27 +104,17 @@ document.getElementById('guess-button').addEventListener('click', ()=>{
     agentImage.textContent = "FOUNDME";
     agentImage.style.display = "block";
     agentImage.src = "/agent_pics/Tuxedo2021.webp"; 
-    var observer = new MutationObserver(function(mutations) {
-        mutations.forEach(function(mutationRecord) {
-            agentImage.style.display = 'block';
-        });    
-    });
-    observer.observe(agentImage, { 
-        attributes: true, 
-        attributeFilter: ['style'] 
-    });
-    var currentFloor = document.querySelector('iframe').contentWindow.document.querySelector('.floor-info.selected');
+    adjustAgentImage(document.querySelector('iframe').contentWindow.document.querySelector('.floor-info.selected'));
+
     var floorList = document.querySelector('iframe').contentWindow.document.getElementsByClassName('floor-info');
     for (let i = 0; i < floorList.length; i++) {
-        floorList[i].addEventListener('click', () => {
-            currentFloor = document.querySelector('iframe').contentWindow.document.querySelector('.floor-info.selected');
-            if (currentFloor.querySelector('span').textContent.includes("1")){
-                agentImage.style.opacity = 1;
-            }else{
-                agentImage.style.opacity = .5;
-            }
-
+        floorList[i].addEventListener('click',  () => {
+            adjustAgentImage(floorList[i]);
         });
+    }
+    function adjustAgentImage(currentFloor){
+        agentImage.style.display = 'block';
+        agentImage.style.opacity = currentFloor.querySelector('span').textContent.includes("1") ? 1 : .5;
     }
     document.querySelector('iframe').contentWindow.document.querySelector('.leaflet-marker-pane').insertBefore(agentImage, terrace);
 });
