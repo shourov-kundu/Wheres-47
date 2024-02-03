@@ -39,7 +39,7 @@ const mapSetUp = () => {
         if (itemButtons.length == 2){
             proceed();
         } else {
-            setTimeout(waitUp, 1000);
+            setTimeout(waitUp, 50);
         }
     }
     waitUp();
