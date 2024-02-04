@@ -262,21 +262,12 @@ iframe {
         transform: translateY(-8px) rotate(-45deg);
     }
 } 
-    
-.relative-y {
-    position: relative; /* Relative to its container */
-    top: 300px; /* Adjust the top position as needed */
-  }
-  .absolute-x {
-    position: absolute;
-    left: 300px; /* Adjust the left position as needed */
-  }
 .map-holder {
     position: relative;
     width: 100%;
     height: 500px; /* Adjust height as needed */
 }
-.overlay-graphic {
+.overlay{
     position: absolute;
     user-select: none;
     -moz-user-select: none;
@@ -284,5 +275,4 @@ iframe {
     -webkit-user-select: none;
     -o-user-select: none;
     pointer-events: none;
-
 }
