@@ -9,7 +9,6 @@ const mobileMenu = () => {
 
 for (let i = 0; i < mapButtons.length; i++) {
     mapButtons[i].addEventListener('click', function(){
-
         let x = document.getElementsByTagName('iframe');
         if (x.length > 0){
             if (x[0].id !== mapButtons[i].id){
@@ -17,13 +16,16 @@ for (let i = 0; i < mapButtons.length; i++) {
                 menu.classList.remove('is-active');
                 menuLinks.classList.remove('active');
                 document.getElementById("pin").style.visibility = 'hidden';
+                document.querySelector('#connection').setAttribute('x1', 345);
+                document.querySelector('#connection').setAttribute('y1', 315);
                 var iframe = document.createElement('iframe');
                 iframe.id = mapButtons[i].id;
                 iframe.src = mapButtons[i].id + ".html"; 
                 iframe.style.width = '50%'; 
                 iframe.style.height = '100%';  
                 iframe.setAttribute("scrolling", "no");
-                document.getElementById('map-holder').insertBefore(iframe, document.getElementById('map-holder').firstChild);
+                var lineHolder =document.getElementById('line-holder');
+                lineHolder.parentNode.insertBefore(iframe, lineHolder.nextSibling)
                 document.querySelector('iframe').addEventListener('load', mapSetUp);
             }
         }
@@ -65,6 +67,7 @@ const mapSetUp = () => {
         }
         document.getElementById("pin").style.visibility = 'visible';
 
+        document.getElementById('guess-button').disabled = false;
     }
 }
 window.addEventListener('resize', () =>{
@@ -75,35 +78,14 @@ window.addEventListener('resize', () =>{
 });
 document.querySelector('iframe').addEventListener('load', mapSetUp);
 document.getElementById('guess-button').addEventListener('click', ()=>{
-    var elements = document.querySelector('iframe').contentWindow.document.getElementsByClassName('area-icon');
-    for (let i = 0; i < elements.length; i++) {
-        var VipX;
-        var VipY;
-        var TerraceX;
-        var TerraceY;
-        var terrace;
-        if (elements[i].textContent.includes("VIP")){
-            VipX = elements[i].getBoundingClientRect().x;
-            VipY = elements[i].getBoundingClientRect().y;
-            //Fully zoomed, paris1 pic is -140,-150 vpixels from VIP Parking icon
-        }
-        if (elements[i].textContent.includes("Kitchen")){
-            terrace = elements[i];
-            TerraceX = elements[i].getBoundingClientRect().x;
-            TerraceY = elements[i].getBoundingClientRect().y;
-        }
+    //Fully zoomed, paris1 pic is -140,-150 vpixels from VIP Parking icon
 
-        // transform: translate3d(572px, 857px, 0px) rotate(10deg);
-        // USE ^ to draw a line between two elements and insert it as a leaflet
-
-        // We can now calculate how far they are in real pixels. Also use the tag to find their distance in vPixels
-        // Then, use some sort of lookup table to find the level of zoom.
-        // Once we know the zoom, calculate how many pixels away they were 
-    }
+    // We can now calculate how far they are in real pixels. Also use the tag to find their distance in vPixels
+    // Then, use some sort of lookup table to find the level of zoom.
+    // Once we know the zoom, calculate how many pixels away they were 
     var agentImage = document.querySelector('iframe').contentWindow.document.querySelector('.leaflet-marker-pane').getElementsByTagName('img')[0];
-    agentImage.textContent = "FOUNDME";
-    agentImage.style.display = "block";
-    agentImage.src = "/agent_pics/Tuxedo2021.webp"; 
+    agentImage.src = "/agent_pics/Tuxedo2021.webp";
+    agentImage.style.pointerEvents = 'none';// taking this out puts the click function back 
     adjustAgentImage(document.querySelector('iframe').contentWindow.document.querySelector('.floor-info.selected'));
 
     var floorList = document.querySelector('iframe').contentWindow.document.getElementsByClassName('floor-info');
@@ -116,15 +98,23 @@ document.getElementById('guess-button').addEventListener('click', ()=>{
         agentImage.style.display = 'block';
         agentImage.style.opacity = currentFloor.querySelector('span').textContent.includes("1") ? 1 : .5;
     }
-    document.querySelector('iframe').contentWindow.document.querySelector('.leaflet-marker-pane').insertBefore(agentImage, terrace);
+    document.querySelector('iframe').contentWindow.document.querySelector('.leaflet-marker-pane').insertBefore(agentImage, null);
+    var agentLocation = agentImage.getBoundingClientRect();
+    var x = agentLocation.left + agentLocation.width / 2;
+    var y = agentLocation.top + agentLocation.height / 2;
+    document.querySelector('#connection').setAttribute('x1', x);
+    document.querySelector('#connection').setAttribute('y1', y);
+    document.querySelector('#connection').parentElement.style.zIndex = (agentImage.zIndex - 1).toString();
+    //To draw line, look into CONNECTING two elements
+    document.getElementById('guess-button').disabled = true;
 });
 
 function distance(x1,y1,x2,y2){
     return Math.sqrt(Math.pow(x1-x2, 2) + Math.pow(y1-y2, 2));
 }
-function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-}
+// function sleep(ms) {
+//     return new Promise(resolve => setTimeout(resolve, ms));
+// }
 //Use MATH to find player coordinates (extrapolate from icons)
 // Find absolute positions of two icons
 //Then find pin's absolute position (head) to find absolute difference in pixels

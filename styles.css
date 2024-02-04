@@ -277,9 +277,6 @@ iframe {
 }
 .overlay-graphic {
     position: absolute;
-    top: 350px;
-    left: 25%;
-    transform: translate(-50%, -50%);
     user-select: none;
     -moz-user-select: none;
     -khtml-user-select: none;
