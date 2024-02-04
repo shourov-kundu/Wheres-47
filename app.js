@@ -16,12 +16,12 @@ for (let i = 0; i < mapButtons.length; i++) {
                 menu.classList.remove('is-active');
                 menuLinks.classList.remove('active');
                 document.getElementById("pin").style.visibility = 'hidden';
-                document.querySelector('#connection').setAttribute('x1', 345);
-                document.querySelector('#connection').setAttribute('y1', 315);
+                document.querySelector('#connection').setAttribute('x1', 300);
+                document.querySelector('#connection').setAttribute('y1', 300);
                 var iframe = document.createElement('iframe');
                 iframe.id = mapButtons[i].id;
                 iframe.src = mapButtons[i].id + ".html"; 
-                iframe.style.width = '50%'; 
+                iframe.style.width = '600px'; 
                 iframe.style.height = '100%';  
                 iframe.setAttribute("scrolling", "no");
                 var lineHolder =document.getElementById('line-holder');
@@ -112,9 +112,18 @@ document.getElementById('guess-button').addEventListener('click', ()=>{
 function distance(x1,y1,x2,y2){
     return Math.sqrt(Math.pow(x1-x2, 2) + Math.pow(y1-y2, 2));
 }
-// function sleep(ms) {
-//     return new Promise(resolve => setTimeout(resolve, ms));
-// }
+
+window.addEventListener('resize', function() {
+    positionOverlay(); // Adjust position on window resize
+});
+function positionOverlay() {
+    var iframeRect = document.querySelector('iframe').getBoundingClientRect();
+    var pin = document.getElementById('pin');
+    
+    // Adjust overlay position based on iframe position
+    pin.style.top = iframeRect.top + 300 + 'px'; 
+    pin.style.left = iframeRect.left + 300 + 'px';
+  }
 //Use MATH to find player coordinates (extrapolate from icons)
 // Find absolute positions of two icons
 //Then find pin's absolute position (head) to find absolute difference in pixels

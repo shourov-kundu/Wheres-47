@@ -263,13 +263,14 @@ iframe {
     }
 } 
     
-.overlayImage {
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 7000;
+.relative-y {
+    position: relative; /* Relative to its container */
+    top: 300px; /* Adjust the top position as needed */
   }
-
+  .absolute-x {
+    position: absolute;
+    left: 300px; /* Adjust the left position as needed */
+  }
 .map-holder {
     position: relative;
     width: 100%;
