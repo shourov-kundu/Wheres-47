@@ -1,22 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
-    crossorigin=""/>
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
-    crossorigin=""></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Where's 47</title>
     <link rel="stylesheet" href="styles.css">
-    <!-- <meta http-equiv="Content-Security-Policy" content="style-src 'self' 'unsafe-inline';"> -->
-    <!-- <meta http-equiv="Content-Security-Policy" content="font-src 'self' https://fonts.gstatic.com; default-src 'none'"> -->
-
 </head>
 <body>
-    <!-- Navbar section -->
     <nav class="navbar">
         <div class="navbar__container">
             <a href="" id="navbar__logo">Where's 47?</a>
@@ -62,8 +52,8 @@
         </li>
     </ul>
     <div id="map-holder" style="width:100%; height: 600px;white-space: nowrap;">
-        <svg width="50%" id="line-holder" class="overlay" height="600px">
-            <line id="connection" x1="300" y1="300" x2="300" y2="300" stroke="black"/>
+        <svg width="600px" id="line-holder" class="overlay" height="600px">
+            <line id="connection" x1="300" y1="280" x2="300" y2="280" stroke="black"/>
         </svg>
         <img id="pin" class="overlay" src="pin.png" style="width:70px; visibility: hidden;
         top: 50%;
@@ -75,9 +65,6 @@
         <img src="paris1.jpg" style="width: 600px;">
         
     </div>
-    <!-- <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-        <line x1="0" y1="80" x2="100" y2="20" stroke="black" />
-      </svg> -->
 
     <div><button class="button" id="guess-button" style="margin-top: 50px;width: 150px;">Guess!</a></button></div>
     <div>Maps are from <a href="https://www.hitmaps.com/" target="_blank">Hitmaps</a>, credit goes to <a href="https://mikeko.ch/" target="_blank">Mike Koch</a> for making them</div> 

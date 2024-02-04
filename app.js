@@ -7,6 +7,8 @@ const mobileMenu = () => {
     menuLinks.classList.toggle('active');
 };
 
+menu.addEventListener('click', mobileMenu);
+// remove and remake map after clicking different map
 for (let i = 0; i < mapButtons.length; i++) {
     mapButtons[i].addEventListener('click', function(){
         let x = document.getElementsByTagName('iframe');
@@ -17,7 +19,7 @@ for (let i = 0; i < mapButtons.length; i++) {
                 menuLinks.classList.remove('active');
                 document.getElementById("pin").style.visibility = 'hidden';
                 document.querySelector('#connection').setAttribute('x1', 300);
-                document.querySelector('#connection').setAttribute('y1', 300);
+                document.querySelector('#connection').setAttribute('y1', 280);
                 var iframe = document.createElement('iframe');
                 iframe.id = mapButtons[i].id;
                 iframe.src = mapButtons[i].id + ".html"; 
@@ -31,10 +33,9 @@ for (let i = 0; i < mapButtons.length; i++) {
         }
     });
 }
-
-menu.addEventListener('click', mobileMenu);
+// After map loads, adjust it to hide unneeded aspects
 const mapSetUp = () => {
-    // Press button to hide all elements (can't just alter tags because they are reset)
+    //  Wait for hide-items button to show up (can't just alter tags because they are reset)
     var itemButtons = document.querySelector('iframe').contentWindow.document.getElementsByClassName("hide-select-button");    
     function waitUp(){
         itemButtons = document.querySelector('iframe').contentWindow.document.getElementsByClassName("hide-select-button");
@@ -46,6 +47,7 @@ const mapSetUp = () => {
     }
     waitUp();
     function proceed(){
+        //Press button to hide items
         itemButtons[0].click();
         // Open navigation menu and then select area button to show location names
         document.querySelector('iframe').contentWindow.document.getElementsByClassName('card-header')[4].firstChild.click();
@@ -68,9 +70,11 @@ const mapSetUp = () => {
         document.getElementById("pin").style.visibility = 'visible';
 
         document.getElementById('guess-button').disabled = false;
+        positionOverlay();
     }
 }
 window.addEventListener('resize', () =>{
+    positionOverlay();
     if (window.getComputedStyle(menuLinks).getPropertyValue('display') === 'flex'){
         menu.classList.remove('is-active');
         menuLinks.classList.remove('active');
@@ -83,11 +87,14 @@ document.getElementById('guess-button').addEventListener('click', ()=>{
     // We can now calculate how far they are in real pixels. Also use the tag to find their distance in vPixels
     // Then, use some sort of lookup table to find the level of zoom.
     // Once we know the zoom, calculate how many pixels away they were 
+
+    // Show agent image on map
     var agentImage = document.querySelector('iframe').contentWindow.document.querySelector('.leaflet-marker-pane').getElementsByTagName('img')[0];
     agentImage.src = "/agent_pics/Tuxedo2021.webp";
     agentImage.style.pointerEvents = 'none';// taking this out puts the click function back 
+    
+    //Alter transperency based on floor
     adjustAgentImage(document.querySelector('iframe').contentWindow.document.querySelector('.floor-info.selected'));
-
     var floorList = document.querySelector('iframe').contentWindow.document.getElementsByClassName('floor-info');
     for (let i = 0; i < floorList.length; i++) {
         floorList[i].addEventListener('click',  () => {
@@ -98,32 +105,30 @@ document.getElementById('guess-button').addEventListener('click', ()=>{
         agentImage.style.display = 'block';
         agentImage.style.opacity = currentFloor.querySelector('span').textContent.includes("1") ? 1 : .5;
     }
+
     document.querySelector('iframe').contentWindow.document.querySelector('.leaflet-marker-pane').insertBefore(agentImage, null);
+
+    //draw line on map. 
     var agentLocation = agentImage.getBoundingClientRect();
     var x = agentLocation.left + agentLocation.width / 2;
     var y = agentLocation.top + agentLocation.height / 2;
     document.querySelector('#connection').setAttribute('x1', x);
     document.querySelector('#connection').setAttribute('y1', y);
     document.querySelector('#connection').parentElement.style.zIndex = (agentImage.zIndex - 1).toString();
-    //To draw line, look into CONNECTING two elements
+    
     document.getElementById('guess-button').disabled = true;
-});
 
-function distance(x1,y1,x2,y2){
-    return Math.sqrt(Math.pow(x1-x2, 2) + Math.pow(y1-y2, 2));
-}
-
-window.addEventListener('resize', function() {
-    positionOverlay(); // Adjust position on window resize
+    // TODO: update on some eventListener (agent image moves, leaflet zooms/shifts)
+    // TODO: Make other end of line move
 });
 function positionOverlay() {
     var iframeRect = document.querySelector('iframe').getBoundingClientRect();
     var pin = document.getElementById('pin');
     
-    // Adjust overlay position based on iframe position
+    // Adjust pin position based on iframe position
     pin.style.top = iframeRect.top + 300 + 'px'; 
     pin.style.left = iframeRect.left + 300 + 'px';
-  }
+}
 //Use MATH to find player coordinates (extrapolate from icons)
 // Find absolute positions of two icons
 //Then find pin's absolute position (head) to find absolute difference in pixels
