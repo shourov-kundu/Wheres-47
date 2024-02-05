@@ -6,7 +6,17 @@ const mobileMenu = () => {
     menu.classList.toggle('is-active');
     menuLinks.classList.toggle('active');
 };
+const photos = {
+    paris: 27,
+    sapienza: 26,
+    marrakesh: 7,
+    bangkok: 17,
+    colorado: 1,
+    hokkaido: 17,
+};
+// TODO: ^Replace above with node.js serverside to get dynamic list of photos
 
+const photoCounts = new Map(Object.entries(photos));
 menu.addEventListener('click', mobileMenu);
 // remove and remake map after clicking different map
 for (let i = 0; i < mapButtons.length; i++) {
@@ -29,6 +39,8 @@ for (let i = 0; i < mapButtons.length; i++) {
                 var lineHolder =document.getElementById('line-holder');
                 lineHolder.parentNode.insertBefore(iframe, lineHolder.nextSibling)
                 document.querySelector('iframe').addEventListener('load', mapSetUp);
+                var randomPicture = Math.ceil(Math.random() * photoCounts.get(x[0].id))+".jpg";
+                document.querySelector('#target_pic').src = "target_pictures/" + x[0].id + "/"+randomPicture;
             }
         }
     });
@@ -86,7 +98,7 @@ document.getElementById('guess-button').addEventListener('click', ()=>{
 
     // Show agent image on map
     var agentImage = document.querySelector('iframe').contentWindow.document.querySelector('.leaflet-marker-pane').getElementsByTagName('img')[0];
-    agentImage.src = "/agent_pics/Tuxedo2021.webp";
+    agentImage.src = "/agent_pics/" + document.querySelector('iframe').id + "Suit.webp";
     agentImage.style.pointerEvents = 'none';// taking this out puts the click function back 
     
     //Alter transperency based on floor

@@ -291,6 +291,13 @@ iframe {
     -o-user-select: none;
     pointer-events: none;
 }
-#connection{
-    transition: x1 .5s ease;
+
+.disabled-map-button {
+    user-select: none;
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -o-user-select: none;
+    pointer-events: none;
+    opacity: .1;
 }
