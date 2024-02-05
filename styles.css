@@ -291,3 +291,6 @@ iframe {
     -o-user-select: none;
     pointer-events: none;
 }
+#connection{
+    transition: x1 .5s ease;
+}

@@ -84,10 +84,6 @@ document.querySelector('iframe').addEventListener('load', mapSetUp);
 document.getElementById('guess-button').addEventListener('click', ()=>{
     //Fully zoomed, paris1 pic is -140,-150 vpixels from VIP Parking icon
 
-    // We can now calculate how far they are in real pixels. Also use the tag to find their distance in vPixels
-    // Then, use some sort of lookup table to find the level of zoom.
-    // Once we know the zoom, calculate how many pixels away they were 
-
     // Show agent image on map
     var agentImage = document.querySelector('iframe').contentWindow.document.querySelector('.leaflet-marker-pane').getElementsByTagName('img')[0];
     agentImage.src = "/agent_pics/Tuxedo2021.webp";
@@ -109,23 +105,27 @@ document.getElementById('guess-button').addEventListener('click', ()=>{
     document.querySelector('iframe').contentWindow.document.querySelector('.leaflet-marker-pane').insertBefore(agentImage, null);
 
     //draw line on map. 
-    var agentLocation = agentImage.getBoundingClientRect();
-    var x = agentLocation.left + agentLocation.width / 2;
-    var y = agentLocation.top + agentLocation.height / 2;
-    document.querySelector('#connection').setAttribute('x1', x);
-    document.querySelector('#connection').setAttribute('y1', y);
-    document.querySelector('#connection').parentElement.style.zIndex = (agentImage.zIndex - 1).toString();
+    updateLine(agentImage.getBoundingClientRect());
     
     document.getElementById('guess-button').disabled = true;
-
-    // TODO: update on some eventListener (agent image moves, leaflet zooms/shifts)
-    // TODO: Make other end of line move
+    
+    const callback = function(mutationsList, observer) {
+        updateLine(agentImage.getBoundingClientRect());
+    };
+    function updateLine(agentLocation){
+        document.querySelector('#connection').setAttribute('x1', agentLocation.left + agentLocation.width / 2);
+        document.querySelector('#connection').setAttribute('y1', agentLocation.top + agentLocation.height / 2);
+    }
+    const observer = new MutationObserver(callback);
+    const config = { attributes: true, childList: true, subtree: true };
+    observer.observe(document.querySelector('iframe').contentWindow.document.querySelector('.leaflet-map-pane'), config);
+    // TODO: Make other end of line move (easy)
+    // TODO: Add custom locations (hard). Maybe make it so the agent location is (random base element location) + scale*distance
+    // leaflet-proxy to find scale
 });
 function positionOverlay() {
     var iframeRect = document.querySelector('iframe').getBoundingClientRect();
     var pin = document.getElementById('pin');
-    
-    // Adjust pin position based on iframe position
     pin.style.top = iframeRect.top + 300 + 'px'; 
     pin.style.left = iframeRect.left + 300 + 'px';
 }
@@ -137,8 +137,8 @@ function positionOverlay() {
 //Paris, Bartoli's in security room
 // 376, 708 vs 376, 729 (fully zoomed in), 21 vPixels 
 // space between elements remains constant after zooming in/out (of map OR whole window), resizing window, different browsers, even different resolutions
-// So, we can use distance between elements to find level of zoom. 
-// Once we know level of zoom, we can use calculate how far the distance in pixels actually represents, tell them in feet or meters or something
+
+//TO FIND ZOOM: Just use leaflet-proxy style attribute
 
 // After
 // switch to correct floor
@@ -149,3 +149,4 @@ function positionOverlay() {
 
 
 //NOTE: area name elements only show up when on correct floor, need to calculate translation for each floor?
+//TODO: google analytics
