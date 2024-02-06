@@ -39,8 +39,28 @@ for (let i = 0; i < mapButtons.length; i++) {
                 var lineHolder =document.getElementById('line-holder');
                 lineHolder.parentNode.insertBefore(iframe, lineHolder.nextSibling)
                 document.querySelector('iframe').addEventListener('load', mapSetUp);
-                var randomPicture = Math.ceil(Math.random() * photoCounts.get(x[0].id))+".jpg";
-                document.querySelector('#target_pic').src = "target_pictures/" + x[0].id + "/"+randomPicture;
+                // var randomPicture = Math.ceil(Math.random() * photoCounts.get(x[0].id))+".jpg";
+                // document.querySelector('#target_pic').src = "target_pictures/" + x[0].id + "/"+randomPicture;
+                fetch('http://localhost:80/data') // Replace with your server URL
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        console.log("response = " + response);
+                        return response.blob();
+                    })
+                    .then(blob => {
+                        // Create an object URL for the image blob
+                        const imageUrl = URL.createObjectURL(blob);
+                        console.log("image url = " + imageUrl);
+
+                        // Use the image URL as needed (e.g., set it as the src of an img element)
+                        document.querySelector('#target_pic').src = imageUrl;
+                    })
+                    .catch(error => {
+                        console.error('Error fetching random image:', error);
+                    });
+
             }
         }
     });
