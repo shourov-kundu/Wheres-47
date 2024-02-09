@@ -41,7 +41,7 @@ for (let i = 0; i < mapButtons.length; i++) {
                 document.querySelector('iframe').addEventListener('load', mapSetUp);
                 // var randomPicture = Math.ceil(Math.random() * photoCounts.get(x[0].id))+".jpg";
                 // document.querySelector('#target_pic').src = "target_pictures/" + x[0].id + "/"+randomPicture;
-                fetch('http://localhost:80/data') // Replace with your server URL
+                fetch('http://ec2-54-185-9-180.us-west-2.compute.amazonaws.com:3000/'+mapButtons[i].id) 
                     .then(response => {
                         if (!response.ok) {
                             throw new Error('Network response was not ok');
@@ -50,11 +50,8 @@ for (let i = 0; i < mapButtons.length; i++) {
                         return response.blob();
                     })
                     .then(blob => {
-                        // Create an object URL for the image blob
                         const imageUrl = URL.createObjectURL(blob);
                         console.log("image url = " + imageUrl);
-
-                        // Use the image URL as needed (e.g., set it as the src of an img element)
                         document.querySelector('#target_pic').src = imageUrl;
                     })
                     .catch(error => {
